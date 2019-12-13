@@ -34,7 +34,7 @@ $(document).ready(function () {
     
 })
 
-function ValidarCpf() { }
+
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');

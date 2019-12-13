@@ -22,12 +22,75 @@ namespace WebAtividadeEntrevista.Controllers
             return View();
         }
 
+
+        private bool validaCpf(string CPF = "")
+        {
+            CPF = String.Join("", System.Text.RegularExpressions.Regex.Split(CPF, @"[^\d]"));
+            string cpfAux;
+            int i , soma = 0;
+
+            if (CPF != "" && CPF != null && CPF.Length == 11 )
+            {
+                cpfAux = CPF.Substring(0, 9); 
+
+                if (CPF.Equals("00000000000") ||!CPF.Equals("11111111111") ||!CPF.Equals("22222222222") || !CPF.Equals("33333333333") || !CPF.Equals("44444444444") || !CPF.Equals("55555555555") ||!CPF.Equals("66666666666") || !CPF.Equals("77777777777") ||
+                !CPF.Equals("88888888888") || !CPF.Equals("99999999999"))
+                {
+
+                    //Primeiro dígito
+                    for (i = 10; i >= 2; i--)
+                    {
+                        soma += (Int32.Parse(cpfAux[10 - i].ToString()) * i);
+                    }
+                    cpfAux += retornaDigito(soma);
+
+                    soma = 0;
+
+                    //Segundo dígito
+                    for (i = 11; i >= 2; i--)
+                    {
+                        soma += (Int32.Parse(CPF[11 - i].ToString()) * i);
+                    }
+                    cpfAux += retornaDigito(soma);
+
+                    //Comparação Digitos calculados e CPF digitados
+                    if (cpfAux.Equals(CPF))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+
+            
+        }
+
+
+        private string retornaDigito(int soma)
+        {
+            int digito, resto;
+
+            resto = soma % 11;
+
+            if (resto < 2)
+            {
+                digito = 0;
+            }
+            else
+            {
+                digito = (11 - resto);
+            }
+
+            return digito.ToString();
+        }
+
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
             
-            if (!this.ModelState.IsValid)
+            if (!this.ModelState.IsValid && validaCpf(model.CPF))
             {
                 List<string> erros = (from item in ModelState.Values
                                       from error in item.Errors
