@@ -60,10 +60,7 @@ namespace WebAtividadeEntrevista.Controllers
                     }
                 }
             }
-
             return false;
-
-            
         }
 
 
@@ -90,7 +87,7 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
             
-            if (!this.ModelState.IsValid && validaCpf(model.CPF))
+            if (!this.ModelState.IsValid )
             {
                 List<string> erros = (from item in ModelState.Values
                                       from error in item.Errors
@@ -101,23 +98,29 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
-                model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
-                    CPF = model.CPF,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
-                });
+                if (validaCpf(model.CPF))
+                { 
+                    model.Id = bo.Incluir(new Cliente()
+                    {                    
+                        CEP = model.CEP,
+                        CPF = model.CPF,
+                        Cidade = model.Cidade,
+                        Email = model.Email,
+                        Estado = model.Estado,
+                        Logradouro = model.Logradouro,
+                        Nacionalidade = model.Nacionalidade,
+                        Nome = model.Nome,
+                        Sobrenome = model.Sobrenome,
+                        Telefone = model.Telefone
+                    });
 
            
-                return Json("Cadastro efetuado com sucesso");
+                    return Json("Cadastro efetuado com sucesso");
+                }
+                else
+                {
+                    return Json("O CPF informado não é valido.");
+                }
             }
         }
 
