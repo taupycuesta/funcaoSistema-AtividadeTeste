@@ -119,6 +119,7 @@ namespace WebAtividadeEntrevista.Controllers
                 }
                 else
                 {
+                    Response.StatusCode = 400;
                     return Json("O CPF informado não é valido.");
                 }
             }
@@ -172,7 +173,7 @@ namespace WebAtividadeEntrevista.Controllers
                 {
                     Id = cliente.Id,
                     CEP = cliente.CEP,
-                    CPF = model.CPF,
+                    CPF = cliente.CPF,
                     Cidade = cliente.Cidade,
                     Email = cliente.Email,
                     Estado = cliente.Estado,

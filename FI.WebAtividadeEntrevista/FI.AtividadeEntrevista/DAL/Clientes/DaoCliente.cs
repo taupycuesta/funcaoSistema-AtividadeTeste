@@ -149,6 +149,7 @@ namespace FI.AtividadeEntrevista.DAL
                     DML.Cliente cli = new DML.Cliente();
                     cli.Id = row.Field<long>("Id");
                     cli.CEP = row.Field<string>("CEP");
+                    cli.CPF = row.Field<string>("CPF");
                     cli.Cidade = row.Field<string>("Cidade");
                     cli.Email = row.Field<string>("Email");
                     cli.Estado = row.Field<string>("Estado");

@@ -41,11 +41,11 @@ $("#cpf").focusout(function () {
 
     if (cpf !== "" && typeof cpf !== "undefined" && cpf.length == 11) {
         cpf = cpf.substr(0, 3) + "." + cpf.substr(3, 3) + "." + cpf.substr(6, 3) + "-" + cpf.substr(9, 2);
-
     } else {
             cpf = ("00000000000" + cpf).slice(-11);
             cpf = cpf.substr(0, 3) + "." + cpf.substr(3, 3) + "." + cpf.substr(6, 3) + "-" + cpf.substr(9, 2);
     }
+
     $("#cpf").val(cpf);
     
 });

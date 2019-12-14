@@ -22,7 +22,7 @@ namespace FI.AtividadeEntrevista.DML
         public string CEP { get; set; }
 
         /// <summary>
-        /// CEP
+        /// CPF
         /// </summary>
         public string CPF { get; set; }
 
