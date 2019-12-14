@@ -99,7 +99,10 @@ namespace WebAtividadeEntrevista.Controllers
             else
             {
                 if (validaCpf(model.CPF))
-                { 
+                {
+                    model.CPF = String.Join("", System.Text.RegularExpressions.Regex.Split(model.CPF, @"[^\d]"));
+
+
                     model.Id = bo.Incluir(new Cliente()
                     {                    
                         CEP = model.CEP,
@@ -141,22 +144,32 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                bo.Alterar(new Cliente()
+                if (validaCpf(model.CPF))
                 {
-                    Id = model.Id,
-                    CEP = model.CEP,
-                    CPF = model.CPF,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
-                });
+                    model.CPF = String.Join("", System.Text.RegularExpressions.Regex.Split(model.CPF, @"[^\d]"));
+
+                    bo.Alterar(new Cliente()
+                    {
+                        Id = model.Id,
+                        CEP = model.CEP,
+                        CPF = model.CPF,
+                        Cidade = model.Cidade,
+                        Email = model.Email,
+                        Estado = model.Estado,
+                        Logradouro = model.Logradouro,
+                        Nacionalidade = model.Nacionalidade,
+                        Nome = model.Nome,
+                        Sobrenome = model.Sobrenome,
+                        Telefone = model.Telefone
+                    });
                                
                 return Json("Cadastro alterado com sucesso");
+                }
+                else
+                {
+                    Response.StatusCode = 400;
+                    return Json("O CPF informado não é valido.");
+                }
             }
         }
 
