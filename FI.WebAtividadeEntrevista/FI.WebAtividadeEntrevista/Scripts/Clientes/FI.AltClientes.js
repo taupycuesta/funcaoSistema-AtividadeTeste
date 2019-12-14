@@ -1,5 +1,7 @@
 ﻿
 $(document).ready(function () {
+
+
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
@@ -12,6 +14,8 @@ $(document).ready(function () {
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
     }
+
+    formatarCpf();
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
@@ -48,6 +52,27 @@ $(document).ready(function () {
     })
     
 })
+
+$("#cpf").focusout(function () {
+
+    formatarCpf();
+
+})
+
+
+function formatarCpf() {
+    var cpf = $("#cpf").val().replace(/[^\d]+/g, '').trim();
+
+    if (cpf !== "" && typeof cpf !== "undefined" && cpf.length == 11) {
+        cpf = cpf.substr(0, 3) + "." + cpf.substr(3, 3) + "." + cpf.substr(6, 3) + "-" + cpf.substr(9, 2);
+    } else {
+        cpf = ("00000000000" + cpf).slice(-11);
+        cpf = cpf.substr(0, 3) + "." + cpf.substr(3, 3) + "." + cpf.substr(6, 3) + "-" + cpf.substr(9, 2);
+    }
+
+    $("#cpf").val(cpf);
+}
+
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
