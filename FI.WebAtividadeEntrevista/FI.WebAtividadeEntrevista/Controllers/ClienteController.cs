@@ -143,7 +143,8 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                if (validaCpf(model.CPF))
+                model.CPF = String.Join("", System.Text.RegularExpressions.Regex.Split(model.CPF, @"[^\d]"));
+                if (validaCpf(model.CPF) && !bo.VerificarExistencia(model.CPF))
                 {
                     model.CPF = String.Join("", System.Text.RegularExpressions.Regex.Split(model.CPF, @"[^\d]"));
 
@@ -167,7 +168,7 @@ namespace WebAtividadeEntrevista.Controllers
                 else
                 {
                     Response.StatusCode = 400;
-                    return Json("O CPF informado não é valido.");
+                    return Json("O CPF informado não é valido ou já está cadastrado.");
                 }
             }
         }
